@@ -1,0 +1,50 @@
+package screen
+import data.Product
+
+class ShoppingProductList {
+    private val products = arrayOf(
+        Product("패션", "겨울 패딩"), // art+enter => 상단에 import 기능
+        Product("패션", "겨울 바지"),
+        Product("전자기기", "핸드폰"),
+        Product("전자기기", "블루투스 이어폰"),
+        Product("전자기기", "노트북"),
+        Product("반려동물용품", "건식 사료"),
+        Product("반려동물용품", "습식 사료"),
+        Product("반려동물용품", "치약"),
+        Product("반려동물용품", "간식"),
+    )
+
+    // String: key-CategoryLabel값 저장, List<Product>: name-categoryLabel & name값 저장
+    private val categories: Map<String, List<Product>> =
+        products.groupBy { products ->
+            products.categoryLabel
+
+        }
+
+    /*
+     * 사용자가 입력한 카테고리 정보를 받아 해당 카테고리의 상품을 출력력
+     */
+    fun showProducts(selectedCategory: String) {
+        // 지정된 카테고리의 상품목록을 가져온다.
+        // categoryProducts= ("categoryLabel", "name")값 배열
+        val categoryProducts = categories[selectedCategory]
+
+        // 가져온 제품목록이 null,공백이 아닐경우 display("""    """)
+        if (!categoryProducts.isNullOrEmpty()) {
+            println(""" 
+                ***========================================***
+                   선택하신 [$selectedCategory] 카테고리 상품입니다.
+            """.trimIndent())
+            val productSize = categoryProducts.size // 배열의 크기 변수에 리턴
+            for (index in 0 until productSize) { // ex) 0번 index의 name값
+                println("${index}.${categoryProducts[index].name}")
+            }
+        } else {
+            showEmptyProductMessage(selectedCategory)
+        }
+    }
+
+    private fun showEmptyProductMessage(selectedCategory: String) {
+        println("[$selectedCategory] 카테고리 상품이 등록되기 전입니다.")
+    }
+}
