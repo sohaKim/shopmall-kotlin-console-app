@@ -23,7 +23,9 @@ class ShoppingCategory {
         }
 
         if (selectedCategory == "#") {
-            // TODO (1) 장바구니 이동
+            // 장바구니로 이동
+            val shoppingCart = ShoppingCart() // 객체 생성
+            shoppingCart.showCartItems()
 
         } else {
             if (categories.contains(selectedCategory)) {
