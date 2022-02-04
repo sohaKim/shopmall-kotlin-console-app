@@ -17,7 +17,8 @@ class ShoppingCart {
                     separator = ", \n",
                     prefix = """
                         ***================================****
-                              장바구니에 담긴 상품 목록입니다.\n
+                              장바구니에 담긴 상품 목록입니다.
+                              
                     """.trimIndent()
                 // Product class,    수량 부분은 <Product, Int>의 product를 입력하면 수량을 가져온다
                 ) { product -> "카테고리: ${product.categoryLabel} / 상품명: ${product.name} / 수량: ${products[product]}"
