@@ -5,7 +5,7 @@ import data.Product
 import extensions.getNotEmptyInt
 import extensions.getNotEmptyString
 
-class ShoppingProductList : Screen() { // Screen() 상속
+class ShoppingProductList(private val selectedCategory: String) : Screen() { // Screen() 상속
     private val products = arrayOf(
         Product("패션", "겨울 패딩"), // art+enter => 상단에 import 기능
         Product("패션", "겨울 바지"),
@@ -28,7 +28,7 @@ class ShoppingProductList : Screen() { // Screen() 상속
     /*
      * 사용자가 입력한 카테고리 정보를 받아 해당 카테고리의 상품을 출력
      */
-    fun showProducts(selectedCategory: String) {
+    fun showProducts() {
         // 스택에 저장
         ScreenStack.push(this) // this: ShoppingProductList 클래스(현재 클래스)
 
@@ -53,13 +53,13 @@ class ShoppingProductList : Screen() { // Screen() 상속
             }
 
             // 장바구니에 담을 상품 선택
-            showCartOption(categoryProducts, selectedCategory)
+            showCartOption(categoryProducts)
         } else {
             showEmptyProductMessage(selectedCategory)
         }
     }
 
-    private fun showCartOption(categoryProducts: List<Product>, selectedCategory: String) {
+    private fun showCartOption(categoryProducts: List<Product>) {
         println(""" 
                 $LINE_DIVIDER
                    장바구니에 담을 상품 번호를 선택해 주세요.
@@ -68,17 +68,24 @@ class ShoppingProductList : Screen() { // Screen() 상속
         // 상품 번호 입력 수행
         val selectedIndex = readLine().getNotEmptyInt()
         categoryProducts.getOrNull(selectedIndex)?.let{
+
             product -> CartItems.addProduct(product)
             println("=> 장바구니로 이동하시려면 #을, 계속 쇼핑하려면 *를 입력해주세요!")
             val answer = readLine().getNotEmptyString()
+
             if (answer == "#") {
                 val shoppingCart = ShoppingCart() // 객체 생성
                 shoppingCart.showCartItems()
             } else if (answer == "*") {
-                showProducts(selectedCategory)
+                showProducts()
             } else {
-                // TODO: 그 외 입력값에 대한 처리
+                // 그 외 입력값(목록에 없는null)에 대한 처리
+                println("잘못된 입력입니다. 다시 입력해주세요.")
+                showProducts()
             }
+        } ?: kotlin.run{ // null일 경우 수행, 3항연산자와 유사
+            println("$selectedIndex 은 목록에 없는 상품 번호 입니다. 다시 입력해주세요!")
+            showProducts() // showProducts()로 이동
         }
     }
 

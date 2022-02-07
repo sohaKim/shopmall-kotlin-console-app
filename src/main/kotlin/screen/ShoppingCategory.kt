@@ -37,8 +37,8 @@ class ShoppingCategory : Screen() { // Screen() 상속
         } else {
             if (categories.contains(selectedCategory)) {
                 // 카테고리 상품목록 보여주기 --- 있으면 selectedCategory 보여주기
-                val shoppingProductList = ShoppingProductList() // 객체 생성
-                shoppingProductList.showProducts(selectedCategory)
+                val shoppingProductList = ShoppingProductList(selectedCategory) // 객체 생성
+                shoppingProductList.showProducts()
 
             } else {
                 // 카테고리 목록에 없을경우
